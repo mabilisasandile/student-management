@@ -14,10 +14,18 @@ const db = mysql.createConnection({
     database: "crud"
 })
 
+db.connect(err => {
+    if (err) {
+        console.error('Error connecting to database: ', err);
+        return;
+    }
+    console.log('Connected to MySQL database');
+});
+
 app.get("/", (req, res) => {
     const sql = "SELECT * FROM student";
     db.query(sql, (err, data) => {
-        if(err) return res.json("Error inside server")
+        if (err) return res.json("Error inside server")
         return res.json(data);
     })
 })
@@ -26,58 +34,56 @@ app.get("/read/:id", (req, res) => {
     const sql = "SELECT * FROM student WHERE ID = ?";
     const id = req.params.id;
 
-    db.query(sql,[id], (err, result) => {
-        if(err) return res.json({Message: "Error inside server"})
+    db.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Message: "Error inside server" })
         return res.json(result);
     })
 })
 
 
 app.post("/student", (req, res) => {
-    // const sql = "INSERT INTO student ('Name', 'Email') VALUES (?, ?)";
-    const sql = "INSERT INTO student ('Name', 'Email') VALUES (?)";
-    const values = [
-        req.body.name,
-        req.body.email
-    ]
-    db.query(sql, [values], (err, data) => {
-        if(err) return res.json({Message: "Error inside server"});
-        return res.json(data);
-    })
+    const { name, email } = req.body;
+    console.log("Values passed:", name + ', ' + email);
+    db.query('INSERT INTO student (Name, Email) VALUES (?, ?)', [name, email], (err, data) => {
+        if (err) {
+            console.log("Error inside server:", err);
+            res.status(500).json({ Message: "Error inside server" });
+            return;
+        }
+        res.status(201).json(data);
+    });
 })
 
 
 app.post("/signup", (req, res) => {
-    const sql = "INSERT INTO login ('name','email','password') VALUES (?)";
-    const values = [
-        req.body.name,
-        req.body.email,
-        req.body.password
-    ]
-
-    console.log("Values passed:", values);
-
-    db.query(sql, values, (err, data) => {
-        if(err){
+    const { name, email, password } = req.body;
+    console.log("Values passed:", name + ', ' + email + ', ' + password);
+    db.query('INSERT INTO login (name, email, password) VALUES (?, ?, ?)', [name, email, password], (err, result) => {
+        if (err) {
             console.log("Error inside server:", err);
-            return err;
-        } 
-        return res.json(data);
-    })
+            res.status(500).json({ message: 'Error registering user' });
+            return;
+        }
+        res.status(201).json({ message: 'User registered successfully' });
+    });
 })
 
-app.post("/login", (req, res) => {
-    const sql = "SELECT * FROM login WHERE 'email' = ? AND 'password' = ?";
-    
-    db.query(sql, [req.body.email,req.body.password], (err, data) => {
-        if (err){
-            return res.json({Message: "Error inside server"});
-        } 
-        if (data.length > 0) {
-            return res.json("Success");
-        } else {
-            return res.json("Failed");
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    console.log("Values passed:", email + ', ' + password);
+
+    db.query('SELECT * FROM login WHERE email = ? AND password = ?', [email, password], (err, result) => {
+        if (err) {
+            console.error('Error logging in: ', err);
+            res.status(500).json({ message: 'Error logging in' });
+            return;
         }
+        if (result.length === 0) {
+            res.status(401).json({ message: 'Invalid username or password' });
+            return;
+        }
+        res.status(200).json({ message: 'Login successful' });
     })
 })
 
@@ -91,7 +97,7 @@ app.put("/update/:id", (req, res) => {
     const id = req.params.id;
 
     db.query(sql, [...values, id], (err, data) => {
-        if(err) return res.json({Message: "Error inside server"});
+        if (err) return res.json({ Message: "Error inside server" });
         return res.json(data);
     })
 })
@@ -101,7 +107,7 @@ app.delete("/student/:id", (req, res) => {
     const id = req.params.id;
 
     db.query(sql, [id], (err, data) => {
-        if(err) return res.json({Message: "Error inside server"});
+        if (err) return res.json({ Message: "Error inside server" });
         return res.json(data);
     })
 })

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const [message, setMessage] = useState('');
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -22,23 +23,26 @@ const Signup = () => {
         setErrors(Validation(values));
     }, [values]);
 
+    let name = values.name;
+    let email = values.email;
+    let password = values.password;
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (errors.name === "" && errors.email === "" && errors.password === "") {
+            console.log("Name:", name);
+            console.log("Email:", email);
+            console.log("Password:", password);
             try {
-                axios.post('http://localhost:4041/signup', values)
-                    .then(res => {
-                        if (res = "Success") {
-                            console.log("Server response:", res.data);
-                            alert("Successfully signed up!");   // Display a user-friendly success message
-                            navigate('/signin');
-                        }
-                    })
+                const response = await axios.post('http://localhost:4041/signup', { name, email, password })
+                console.log(response.data.message);
+                setMessage(response.data.message);
+                navigate('/signin');
 
             } catch (error) {
                 console.log("Error signing up:", error);
                 // Display a user-friendly error message
-                alert("Something went wrong. Unable to register!");
+                alert("Something went wrong. Failed to sign up!");
             }
         }
     };
@@ -47,6 +51,7 @@ const Signup = () => {
         <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
             <div className='bg-white p-3 rounded w-25'>
                 <h2>Sign-Up</h2>
+                <h4>{message}</h4>
                 <form onSubmit={handleSubmit}>
                     <div className='mb-3'>
                         <label htmlFor='name'><strong>Name</strong></label>

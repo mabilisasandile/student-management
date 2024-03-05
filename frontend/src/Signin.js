@@ -14,38 +14,34 @@ const Signin = () => {
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false);
 
-    useEffect(()=>{
-        setErrors(Validation(values));
-    }, [])
-
     const navigate = useNavigate();
 
     const handleInput = (event) => {
-        setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
-    }
+        setValues(prev => ({ ...prev, [event.target.name]: event.target.value }));
+    };
 
-    const handleSubmit = (e) => {
+    let email = values.email;
+    let password = values.password;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setErrors(Validation(values));
 
         if (errors.email === "" && errors.password === "") {
             setLoading(true);
-            axios.post('http://localhost:4041/login', values)
-                .then(res => {
-                    if (res.data === "Success") {
-                        alert("Successfully signed in!");   // Display a user-friendly success message
-                        navigate('/');
-                    } 
-                    else {
-                        alert("Unable to login. No records found.")
-                    }
-                })
-                .catch(err => {
-                    console.log("Error signing in:", err);
-                    // Display a user-friendly error message
-                    alert("Something went wrong. Unable to login!");
-                    setLoading(false);
-                })
 
+            try {
+                let response = await axios.post('http://localhost:4041/login', { email, password });
+                console.log(response.data.message);
+                alert("Successfully signed in.");
+                navigate('/');
+
+            } catch (error) {
+                console.log("Error signing in:", error);               
+                alert("Failed to sign in!");
+                setLoading(false);
+            }
         }
     }
 
