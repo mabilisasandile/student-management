@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import SideBar from './components/SideBar';
+import Main from './components/Main';
 
 const Home = () => {
+
+    const [openSideBarToggle, setOpenSideBarToggle] = useState(false);
+
+    const OpenSideBar = () => {
+        setOpenSideBarToggle(!openSideBarToggle)
+    }
+
     return (
-        <div className='justify-content-center align-items-center bg-primary vh-100'>
-            <h1>Home</h1>
-            <div>
-                <Link to="/student" className='btn btn-info me-2'>VIEW ENROLLED STUDENTS</Link>
-                <Link to="/signin" className='btn btn-primary me-2'>SIGN IN</Link>
-            </div>
+        <div className='grid-container'>
+            <Header OpenSideBar={OpenSideBar} />
+            <SideBar openSideBarToggle={openSideBarToggle} OpenSideBar={OpenSideBar} />
+            <Main />
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
