@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Validation } from './services/LoginValidation';
+import { Validation } from '../services/LoginValidation';
 import axios from 'axios';
 
 const Signin = () => {

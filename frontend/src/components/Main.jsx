@@ -1,10 +1,12 @@
 import React from 'react';
 import '../App.css';
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs'; 
+import { BsBookFill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs'; 
 import { BarChart, Bar, LineChart, Line, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
+
+  const navigate = useNavigate();
 
   const data = [
     {
@@ -51,6 +53,19 @@ const Main = () => {
     },
   ];
 
+  const handleBooks =()=>{
+    navigate('/books');
+  }
+
+  const handleStudents =()=>{
+    navigate('/student');
+  }
+
+  const handleCourses =()=>{
+    navigate('/courses');
+  }
+
+
   return (
     <main className='main-container'>
         <div className='main-title'>
@@ -58,23 +73,23 @@ const Main = () => {
         </div>
 
         <div className='main-cards'>
-            <div className='card'>
+            <div className='card' onClick={handleBooks}>
                 <div className='card-inner'>
-                    <h3>PRODUCTS</h3>
-                    <BsFillArchiveFill className='card_icon'/>
+                    <h3>BOOKS</h3>
+                    <BsBookFill className='card_icon'/>
                 </div>
                 <h1>300</h1>
             </div>
-            <div className='card'>
+            <div className='card' onClick={handleCourses}>
                 <div className='card-inner'>
-                    <h3>CATEGORIES</h3>
+                    <h3>COURSES</h3>
                     <BsFillGrid3X3GapFill className='card_icon'/>
                 </div>
                 <h1>12</h1>
             </div>
-            <div className='card'>
+            <div className='card' onClick={handleStudents}>
                 <div className='card-inner'>
-                    <h3>CUSTOMERS</h3>
+                    <h3>STUDENTS</h3>
                     <BsPeopleFill className='card_icon'/>
                 </div>
                 <h1>33</h1>

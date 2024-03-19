@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './App.css';
-import Header from './components/Header';
-import SideBar from './components/SideBar';
-import Main from './components/Main';
+import '../App.css';
+import Header from '../components/Header';
+import SideBar from '../components/SideBar';
+import Main from '../components/Main';
 
 const Home = () => {
 
