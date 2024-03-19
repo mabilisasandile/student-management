@@ -31,7 +31,7 @@ const Student = () => {
         <div className='grid-container'>
             <Header />
             <SideBar />
-            <main className='main-container d-flex vh-100 justify-content-center align-items-center'>
+            <main className='main-container d-flex vh-100 justify-content-center align-items-center'>               
                 <div className='w-50 bg-white rounded p-3'>
 
                     <h2 style={{color: 'black'}}>List of Students</h2>

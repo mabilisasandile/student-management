@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../App.css';
+import Header from "../components/Header";
+import SideBar from "../components/SideBar";
 
 const AddBook = () => {
   const [book, setBook] = useState({
@@ -11,7 +13,7 @@ const AddBook = () => {
     price: null,
     cover: "",
   });
-  const [error,setError] = useState(false)
+  const [error, setError] = useState(false)
 
   const navigate = useNavigate();
 
@@ -31,36 +33,43 @@ const AddBook = () => {
   };
 
   return (
-    <div className="form">
-      <h1>Add New Book</h1>
-      <input
-        type="text"
-        placeholder="Book title"
-        name="title"
-        onChange={handleChange}
-      />
-      <textarea
-        rows={5}
-        type="text"
-        placeholder="Book desc"
-        name="desc"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        placeholder="Book price"
-        name="price"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        placeholder="Book cover"
-        name="cover"
-        onChange={handleChange}
-      />
-      <button onClick={handleClick}>Add</button>
-      {error && "Something went wrong!"}
-      <Link to="/">See all books</Link>
+    <div className='grid-container'>
+      <Header />
+      <SideBar />
+
+      <div className="main-container d-flex vh-100 justify-content-center align-items-center">
+        <div className="form">
+          <h1>Add New Book</h1>
+          <input
+            type="text"
+            placeholder="Book title"
+            name="title"
+            onChange={handleChange}
+          />
+          <textarea
+            rows={5}
+            type="text"
+            placeholder="Book desc"
+            name="desc"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="Book price"
+            name="price"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            placeholder="Book cover"
+            name="cover"
+            onChange={handleChange}
+          />
+          <button onClick={handleClick}>Add</button>
+          {error && "Something went wrong!"}
+          <Link to="/">See all books</Link>
+        </div>
+      </div>
     </div>
   );
 };

@@ -38,12 +38,12 @@ const Books = () => {
       <Header />
       <SideBar />
 
-      <main className="main-container">
-        <h1>Sandy Book Shop</h1>
-        <div className="books">
+      <main className="main-container vh-100 d-flex justify-content-center align-items-center'">
+        <div className="books w-50 bg-white rounded p-3">
           {books.length > 0 ?
             books.map((book) => (
               <div key={book.id} className="book">
+                <h1>Book Shop</h1>
                 <img src={book.cover} alt="" />
                 <h2>{book.title}</h2>
                 <p>{book.desc}</p>
@@ -60,14 +60,14 @@ const Books = () => {
               </div>
             )) :
             <div>
-              <h3>Loading...</h3>
+              <h3 style={{color: 'black'}}>Loading...</h3>
             </div>
           }
         </div>
 
-        <button className="addHome">
+        <button className="addHome rounded">
           <Link to="/addbook" style={{ color: "inherit", textDecoration: "none" }}>
-            Add new book
+            + Add New Book
           </Link>
         </button>
       </main>
